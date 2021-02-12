@@ -1,0 +1,32 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: tax-calculator-high
+  namespace: demo
+spec:
+  template:
+    spec:
+      containerConcurrency: 1
+      containers:
+        - image: docker.io/pierdipi/taxes-b7c27f207e0be008de6249ca2090c042@sha256:faf4988226bf8aa299d36e1e753ede6f397ba7ba15f0241d2d597556881d4c80
+          env:
+            - name: TAX_PERCENTAGE
+              value: "22"
+---
+apiVersion: eventing.knative.dev/v1beta1
+kind: Trigger
+metadata:
+  name: high
+  namespace: demo
+spec:
+  broker: products
+  filter:
+    attributes:
+      type: "com.supermarket.products.created"
+      taxlevel: "high"
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: tax-calculator-high
+      namespace: demo

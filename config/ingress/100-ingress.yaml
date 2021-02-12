@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kafka-broker-ingress
+  namespace: knative-eventing
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /demo/products
+            backend:
+              serviceName: kafka-broker-ingress
+              servicePort: 80
