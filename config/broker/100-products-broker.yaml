@@ -1,7 +1,0 @@
-apiVersion: eventing.knative.dev/v1
-kind: Broker
-metadata:
-  name: products
-  namespace: demo
-  annotations:
-    eventing.knative.dev/broker.class: Kafka
