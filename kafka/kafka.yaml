@@ -19,7 +19,7 @@ metadata:
 spec:
   kafka:
     version: 2.6.0
-    replicas: 3
+    replicas: 1
     listeners:
       # PLAINTEXT
       - name: plain
@@ -56,11 +56,18 @@ spec:
       log.message.format.version: "2.6"
       auto.create.topics.enable: false
     storage:
-      type: ephemeral
+      type: jbod
+      volumes:
+      - id: 0
+        type: persistent-claim
+        size: 10Gi
+        deleteClaim: false
   zookeeper:
-    replicas: 3
+    replicas: 1
     storage:
-      type: ephemeral
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
   entityOperator:
     topicOperator: { }
     userOperator: { }
