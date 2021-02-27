@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.21.0
+  name: config-br-defaults
+  namespace: knative-eventing
+data:
+  default-br-config: |
+    clusterDefault:
+      brokerClass: Kafka
+      apiVersion: v1
+      kind: ConfigMap
+      name: kafka-broker-config
+      namespace: knative-eventing

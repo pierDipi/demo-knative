@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+root_dir="$(dirname $0)"/..
+
+kubectl apply -f $root_dir/knative/serving/config
+kubectl apply -f $root_dir/knative/eventing/config
+kubectl apply -f $root_dir/knative/eventing-kafka-broker/config
+
+# Install dependencies
+$root_dir/kafka/kafka_setup.sh
+$root_dir/istio/install_istio.sh
+
+sleep 20
+
+kubectl apply -f $root_dir/knative/istio/config
+
+kubectl wait --for=condition=Ready pods --all --all-namespaces
