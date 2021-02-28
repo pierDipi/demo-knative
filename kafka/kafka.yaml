@@ -19,7 +19,7 @@ metadata:
 spec:
   kafka:
     version: 2.6.0
-    replicas: 1
+    replicas: 3
     listeners:
       # PLAINTEXT
       - name: plain
@@ -63,7 +63,7 @@ spec:
         size: 10Gi
         deleteClaim: false
   zookeeper:
-    replicas: 1
+    replicas: 3
     storage:
       type: persistent-claim
       size: 10Gi
