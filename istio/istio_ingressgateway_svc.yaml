@@ -15,7 +15,7 @@ metadata:
     release: istio
 spec:
   clusterIP: 10.111.35.217
-  clusterIPs:
+  clusterIPs: 
   - 10.111.35.217
   externalTrafficPolicy: Cluster
   ports:

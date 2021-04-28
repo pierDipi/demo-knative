@@ -1,0 +1,50 @@
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaConnect
+metadata:
+  name: my-connect-cluster
+  namespace: kafka
+  annotations:
+    # use-connector-resources configures this KafkaConnect
+    # to use KafkaConnector resources to avoid
+    # needing to call the Connect REST API directly
+    strimzi.io/use-connector-resources: "true"
+spec:
+  image: docker.io/pierdipi/connect-debezium-cassandra
+  replicas: 1
+  bootstrapServers: my-cluster-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: my-cluster-cluster-ca-cert
+        certificate: ca.crt
+  config:
+    config.storage.replication.factor: 1
+    offset.storage.replication.factor: 1
+    status.storage.replication.factor: 1
+    config.providers: file
+    config.providers.file.class: org.apache.kafka.common.config.provider.FileConfigProvider
+  externalConfiguration:
+    volumes:
+      - name: connector-config
+        secret:
+          secretName: cassandra-cluster-superuser
+---
+apiVersion: "kafka.strimzi.io/v1alpha1"
+kind: "KafkaConnector"
+metadata:
+  name: "inventory-connector"
+  labels:
+    strimzi.io/cluster: my-connect-cluster
+spec:
+  class: io.debezium.connector.mysql.MySqlConnector
+  tasksMax: 1
+  config:
+    database.hostname: 192.168.99.1
+    database.port: "3306"
+    database.user: "${file:/opt/kafka/external-configuration/connector-config/debezium-mysql-credentials.properties:mysql_username}"
+    database.password: "${file:/opt/kafka/external-configuration/connector-config/debezium-mysql-credentials.properties:mysql_password}"
+    database.server.id: "184054"
+    database.server.name: "dbserver1"
+    database.whitelist: "inventory"
+    database.history.kafka.bootstrap.servers: "my-cluster-kafka-bootstrap:9092"
+    database.history.kafka.topic: "schema-changes.inventory"
+    include.schema.changes: "true"

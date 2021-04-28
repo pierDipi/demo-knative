@@ -1,3 +1,9 @@
+## Create KinD cluster
+
+```shell
+kind create cluster --config kind/kind.yaml
+```
+
 ## Install all components
 
 ```bash
@@ -35,4 +41,10 @@ knative-serving      controller-79c9cccd6f-4s2jg                   1/1     Runni
 knative-serving      istio-webhook-56748b47-mtwxr                  1/1     Running   0          48m
 knative-serving      networking-istio-5db557d5c4-w6xwj             1/1     Running   0          48m
 knative-serving      webhook-5fd484cf4-hhqc8                       1/1     Running   0          63m
+```
+
+## Create APIServerSource
+
+```shell
+
 ```
