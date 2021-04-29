@@ -43,8 +43,8 @@ knative-serving      networking-istio-5db557d5c4-w6xwj             1/1     Runni
 knative-serving      webhook-5fd484cf4-hhqc8                       1/1     Running   0          63m
 ```
 
-## Create APIServerSource
+## Send events
 
-```shell
-
+```
+curl -v -X POST http://color-changer.demo-knative.127.0.0.1.nip.io --data "@event.json" -H "Content-Type: application/cloudevents+json"
 ```

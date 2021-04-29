@@ -1,0 +1,9 @@
+apiVersion: serving.knative.dev/v1
+kind: Route
+metadata:
+  name: color-changer
+  namespace: demo-knative
+spec:
+  traffic:
+    - revisionName: color-changer-00001
+      percent: 100

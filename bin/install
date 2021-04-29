@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -xe
+
 root_dir="$(dirname $0)"/..
 
 # Install dependencies
@@ -17,5 +19,4 @@ kubectl wait --for=condition=Ready pods --all --all-namespaces
 
 kubectl apply -f "$root_dir"/knative/istio/config
 kubectl wait --for=condition=Ready pods --all --all-namespaces
-
 
